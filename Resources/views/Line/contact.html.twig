@@ -1,0 +1,14 @@
+{#<!-- Bloc Texte -->#}
+<div class="box textUnit">
+    <h2>Contact</h2>
+    <div class="content">
+        <p>
+            <strong>{{ ez_content_name(content,'name') }}</strong><br/>
+            E-mail&nbsp;: <a href="mailto:{{ ez_field_value(content,'email') }}">{{ ez_field_value(content,'email') }}</a>
+        </p>
+        <p>
+           {{ ez_render_field(content,'address') }}
+        </p>
+    </div>
+</div>
+{#<!-- /Bloc Texte -->#}

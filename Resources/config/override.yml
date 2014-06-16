@@ -1,0 +1,33 @@
+system:
+    cg77_front:
+        location_view:
+            full:
+                job_search:
+                    controller: JobOffersBundle:JobSearch:viewLocation
+                    match:
+                        Identifier\ContentType: [job_search]
+                        Identifier\Section: [standard]
+                job_post:
+                    controller: JobOffersBundle:Job:viewLocation
+                    match:
+                        Identifier\ContentType: [job]
+                        Identifier\Section: [standard]
+            line:
+                contact:
+                    template: JobOffersBundle:Line:contact.html.twig
+                    match:
+                        Identifier\ContentType: [contact]
+                        Identifier\Section: [standard]
+            line_search:
+                job_post:
+                    template: JobOffersBundle:SearchResult:offre_emploi.html.twig
+                    match:
+                        Identifier\ContentType: [job]
+                        Identifier\Section: [standard]
+
+            search_result:
+                job_post:
+                    template: JobOffersBundle:SearchResult:offre_emploi.html.twig
+                    match:
+                        Identifier\ContentType: [job]
+                        Identifier\Section: [standard]

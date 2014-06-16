@@ -1,0 +1,14 @@
+{% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
+{% set place = eznova_relation_field_to_content( ez_field_value(content,'place') )  %}
+<li class="item">
+    <h3>
+        <a href="{{ path(location) }}">
+            {{ ez_content_name(content,'title') }}
+        </a>
+    </h3>
+    <p>
+        <strong>Structure&nbsp;:</strong> {{ ez_content_name(structure,'name') }}<br/>
+        <strong>Domaine d'activité&nbsp;:</strong> {{ ez_render_field(content,'activity_field',{'container':true}) }} <br/>
+        <strong>Lieu&nbsp;:</strong> {{ ez_content_name(place,'city') }}
+    </p>
+</li>

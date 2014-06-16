@@ -1,0 +1,86 @@
+{% block javascripts %}
+    {{ form_javascript(form) }}
+{% endblock %}
+<div class="box formUnit paneFormUnit">
+    <form class="uForm" id="sendFormJob" action="{{ path('job_post') }}"  method="post" {{ form_enctype(form) }}>
+        <span class="success" id="message"> </span>
+        <fieldset class="fieldsetWidth">
+            <legend class="setTitle">Postuler à une offre d'emploi</legend>
+            <p>Formulaire d'envoi de mail.</p>
+            <div class="field radioGroup gender" >
+                {{ form_label(form.gender, "Civilité") }}
+                <ul class="inputLine">
+                    <li>
+                        {{ form_widget(form.gender.0) }}
+                        <label for="field06-1">{{ form.gender.0.vars.label }}</label>
+                    </li>
+                    <li>
+                        {{ form_widget(form.gender.1) }}
+                        <label for="field06-1">{{ form.gender.1.vars.label }}</label>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="field">
+                <label for="{{ form.firstName.vars.id }}">
+                    Nom
+                    <span class="reqNote"> *</span>
+                </label>
+                <span class="error" id="firstName"></span>
+                <button type="button" class="btn btnInfo" data-toggle="tooltip" data-original-title="Saisir votre nom">info</button>
+                {{ form_widget(form.firstName) }}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.lastName.vars.id }}">
+                    Prénom
+                    <span class="reqNote"> *</span>
+                </label>
+                <span class="error" id="lastName"></span>
+                <button type="button" class="btn btnInfo" data-toggle="tooltip" data-original-title="Saisir votre prénom">info</button>
+                {{ form_widget(form.lastName) }}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.email.vars.id }}">
+                    Email
+                    <span class="reqNote"> *</span>
+                </label>
+                <span class="error" id="email"></span>
+                <button type="button" class="btn btnInfo" data-toggle="tooltip" data-original-title="Saisir votre mail">info</button>
+                {{ form_widget(form.email) }}
+            </div>
+            <div class="field">
+                <label for="{{ form.cv.vars.id }}">
+                    CV
+                    <span class="reqNote"> *</span>
+                </label>
+                <span class="error" id="cv"></span>
+                {{ form_widget(form.cv) }}
+            </div>
+            <div class="field">
+                <label for="{{ form.motivation.vars.id }}">
+                    Lettre de motivation
+                    <span class="reqNote"> *</span>
+                </label>
+                <span class="error" id="motivaton"></span>
+                {{ form_widget(form.motivation) }}
+            </div>
+            <input type="hidden" id="recaptcha_active">
+            <div class="field">
+                {{ form_rest(form) }}
+                <span class="error" id="recaptcha"></span>
+            </div>
+        </fieldset>
+        <div class="formFooter">
+            <p class="reqNote"><strong>*</strong> Champs obligatoires</p>
+
+            <div id="formSubmit" class="btnField">
+                <input class="btn btnSubmit" type="submit" id="submitButton" value="Envoyer" />
+                <input class="btn btnReset" type="reset" value="Effacer" />
+            </div>
+
+            <p class="footNote">Mentions légales du formulaire... </p>
+        </div>
+    </form>
+</div>

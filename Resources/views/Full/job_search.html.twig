@@ -1,0 +1,97 @@
+{% extends "CGFrontBundle:Layout:home.html.twig" %}
+{% set body_class = "bodyPage bodyForm" %}
+{% set body_id = "offres-emploi" %}
+
+{% block content %}
+    {% block lowerSection %}
+        <section class="lowerSection">
+            <div id="utils">
+                <div class="wrapper">
+                    {{ render(  controller('CGFrontBundle:Layout:breadcrumb',{'locationId': location.id})) }}
+                    {% include "CGFrontBundle:Common:social_tools.html.twig" %}
+                </div>
+            </div>
+            <div class="wrapper">
+                <section class="colMedium">
+                    {% include "CGFrontBundle:Common:tooltip.html.twig" %}
+                    <article class="paneContent">
+                        <header class="paneHeader">
+                            <h1>Nos offres d'emploi, stages et contrats divers</h1>
+                        </header>
+                        {#<!-- Bloc Rechercher Offres -->#}
+                        <section class="box formUnit jobFormUnit">
+                            <form id="jobSearchForm" action="{{ path(location) }}" method="GET">
+                                <fieldset>
+                                    <legend class="unseen">Recherche par mots-clés</legend>
+                                    <p>
+                                        {{ form_label(form.keyword) }}
+                                        {{ form_widget(form.keyword) }}
+                                    </p>
+                                </fieldset>
+                                <fieldset>
+                                    <legend class="unseen">Recherche par type d'emploi, filière, domaine d'activité, lieu</legend>
+                                    <p class="fieldTitle">Type d'emploi</p>
+                                    <ul class="resetList threeColList colorCheck">
+                                        {% for type in form.type %}
+                                            <li class="lbColor0{{ loop.index }}">
+                                                {{ form_widget(type,{ 'id':'jobType0'~loop.index }) }}
+                                                <label for="jobType0{{ loop.index }}" class="lbColor0{{ loop.index }} {{ form.type.vars.value[loop.index - 1] ? "iChecked" : ""  }}">{{ type.vars.label }}</label>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <p class="fieldTitle">Filière</p>
+                                    <ul class="resetList threeColList colorCheck">
+                                        {% for branch in form.branch %}
+                                            <li class="{{ get_tag_color(branch.vars.value) }}">
+                                                {{ form_widget(branch,{ 'id':'jobBranch0'~loop.index }) }}
+                                                <label for="jobBranch0{{ loop.index }}" class="{{ get_tag_color(branch.vars.value) }} {{ form.branch.vars.value[loop.index - 1] ? "iChecked" : ""  }}">{{ branch.vars.label }}</label>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {{ form_widget(form.domain) }}
+                                    {{ form_widget(form.place) }}
+                                </fieldset>
+                                <button type="submit" class="btnFind" id="jobSubmit">Trouver</button>
+                            </form>
+                        </section>
+                        {#</Bloc Rechercher Offres>#}
+                        {#<Bloc Resultats Recherche>#}
+                        <section class="content resultsList">
+                            <h2>Résultats de votre recherche</h2>
+                            <ul class="listing">
+                                {% for result in search.SearchResult %}
+                                    {{ render( controller( "ez_content:viewLocation", {"locationId": result.location.contentInfo.mainLocationId, "viewType": "line_search"}  ) ) }}
+                                {% endfor %}
+                            </ul>
+                        </section>
+                        {#</Bloc Resultats Recherche>#}
+                        <input type="hidden" value="{{ nbPage }}" id="nbPage">
+                        {#<Bloc Scroll infini>#}
+                        {% if nbPage > 1 %}
+                        <div class="loadMore">
+                            <ul>
+                                {% for page in 1..nbPage %}
+                                    {% if page != currentPage %}
+                                        <li class={{  page < currentPage ? "prev-posts"  : "next-items"  }}>
+                                            <a href="?{{ params }}&page={{ page }}" title="page{{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li>{{ page }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {#</Bloc Scroll infini>#}
+                    </article>
+                </section>
+                {#<!-- /colMedium -->#}
+                {#<!-- aside -->#}
+                <aside>
+                    {{ ez_render_field( content, 'right_column',{'LocationId':location.id} ) }}
+                </aside>
+               {# <!-- /aside -->#}
+            </div>
+        </section>
+    {% endblock %}
+{% endblock %}

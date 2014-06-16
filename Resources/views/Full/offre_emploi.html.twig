@@ -1,0 +1,83 @@
+{% extends "CGFrontBundle:Layout:home.html.twig" %}
+{% block javascripts_more %}
+    <script type="text/javascript" src="{{ asset('bundles/joboffers/javascripts/submitAjax.js') }}"></script>
+{% endblock %}
+{% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
+{% set place = eznova_relation_field_to_content( ez_field_value(content,'place') )  %}
+{% set contact = eznova_relation_field_to_content( ez_field_value(content,'contact') )  %}
+{% set body_class = "bodyPage" %}
+{% set body_id = "contenu01" %}
+{% block content %}
+    {% block lowerSection %}
+        <section class="lowerSection">
+            <div id="utils">
+                <div class="wrapper">
+                    {{ render(  controller('CGFrontBundle:Layout:breadcrumb',{'locationId': location.id})) }}
+                    {% include "CGFrontBundle:Common:social_tools.html.twig" %}
+                </div>
+            </div>
+            <div class="wrapper">
+                <section class="colMedium">
+                    {% include "CGFrontBundle:Common:tooltip.html.twig" %}
+                    <!-- Modal Send Article -->
+                    <div class="modal fade modalSendForm" id="JobFormModal" tabindex="-1" role="dialog" aria-labelledby="sendFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modalContent">
+                                <div class="modalHeader">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modalBody">
+                                    <div class="modalWrapper">
+                                        <input id="contact_id" type="hidden" value="{{ contact.contentInfo.id }}"/>
+                                        {{ render(controller('JobOffersBundle:Job:send' )) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Modal Send Article -->
+                    <a href="{{ path( 'ez_urlalias', {'locationId': location.parentLocationId } ) }}" class="btn goBack">Liste des offres</a>
+                    <article class="content">
+                        <header>
+                            <h1>{{ ez_content_name(content,'title') }}</h1>
+                        </header>
+                        <ul class="criteriaList">
+                            <li><strong>Structure&nbsp;<span>:</span></strong> {{ ez_content_name(structure,'name') }}</li>
+                            <li><strong>Domaine d'activité&nbsp;<span>:</span></strong>{{ ez_render_field(content,'activity_field',{'container':true}) }}</li>
+                            <li><strong>Lieu&nbsp;<span>:</span></strong>{{ ez_content_name(place,'city') }}</li>
+                            <li><strong>Type d'emploi&nbsp;<span>:</span></strong>{{ ez_render_field(content,'job_type',{'container':true}) }}</li>
+                            <li>
+                                <strong>Filière - Cadre d'emploi&nbsp;<span>:</span></strong>
+                                <ul class="resetList">
+                                    {% for branch in branchs %}
+                                        <li>{{ branch.parentTag }} - {{ branch.tag }} </li>
+                                    {% endfor %}
+                                </ul>
+
+                            </li>
+                        </ul>
+                        {{ ez_render_field(content,'description') }}
+                        <h2>Poste à pourvoir rapidement</h2>
+                        <p>
+                            Renseignements auprès de {{ ez_content_name(contact,'name') }}, chargée de recrutement, au {{ ez_field_value(contact,'phone') }}<br/>
+                            Adressez votre candidature (lettre de motivation + CV) à <a href="mailto:{{ ez_field_value(contact,'email') }}">{{ ez_field_value(contact,'email') }}</a>
+                        </p>
+                        <h3>Date limite de candidature</h3>
+                        <p>Postulez avant le {{ ez_render_field(content,'application_deadline',{'container':true}) }}.</p>
+                        <a data-toggle="modal" data-target="#JobFormModal" id="jobSend" href="javascript:void(0)">Postuler</a>
+                    </article>
+
+                </section>
+                <!-- /colMedium -->
+
+                <!-- aside -->
+                <aside>
+                    {{ render( controller( "ez_content:viewLocation", {"locationId": contact.contentInfo.mainLocationId, "viewType": "line"}  ) ) }}
+                    {{ ez_render_field( content, 'right_column',{'LocationId':location.id} ) }}
+                </aside>
+                <!-- /aside -->
+
+            </div>
+        </section>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,5 @@
+parameters:
+
+services:
+    job.sendservice:
+        class: Job\OffersBundle\Services\SendService
