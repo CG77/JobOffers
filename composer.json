@@ -1,0 +1,33 @@
+{
+    "name": "job/offersbundle",
+    "description": "Job Offers Bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Novactive",
+            "homepage": "http://www.novactive.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/CG77/JobOffers.git"
+        }
+    ],    
+    "require": {
+        "ezsystems/ezpublish-kernel": "*",
+        "sensio/framework-extra-bundle": "2.3.*",
+        "novactive/novaextrabundle": "1.2",
+        "novactive/eznovaextrabundle": "*"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {"Job\\OffersBundle": ""}
+    },
+    "target-dir": "Job/OffersBundle",
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "v1.0"
+        }
+    }
+}
