@@ -65,8 +65,9 @@ class JobController extends BaseController {
                 //Récupération de mail receiver
                 $contactId = $this->get('request')->request->get('contactID');
                 $contact = $this->getRepository()->getContentService()->loadContent($contactId);
+				$title = $this->get('request')->request->get('title');
                 $message = \Swift_Message::newInstance()
-                        ->setSubject('[Post] '.$jobPost->getFirstName().' '.$jobPost->getLastName())
+                        ->setSubject("Candidature à l'offre [".$title."] ".$jobPost->getFirstName().' '.$jobPost->getLastName())
                         ->setFrom($jobPost->getEmail())
                         ->setTo($contact->getFieldValue('email')->text)
                         ->setContentType('text/html')

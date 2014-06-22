@@ -17,6 +17,7 @@ var manage_form_post = function(){
             var values = new FormData(form[0]);
             //Envoi de contentId de contact dans la requête ajax
             values.append('contactID',$('#contact_id').val())
+			values.append('title',$('#title').val())
             $("input[type=submit]").attr("disabled", "disabled");
             $.ajax({
                 type : form.attr( 'method' ),
