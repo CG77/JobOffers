@@ -2,4 +2,10 @@ parameters:
 
 services:
     job.sendservice:
-        class: Job\OffersBundle\Services\SendService
+        class: Job\OffersBundle\Helper\SendService
+
+    job.parent_extension:
+        class: Job\OffersBundle\Twig\ParentExtension
+        arguments: [@ezpublish.api.repository, @ezpublish.config.resolver]
+        tags:
+            - { name: twig.extension }
