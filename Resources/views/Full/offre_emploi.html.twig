@@ -1,6 +1,11 @@
 {% extends "CGFrontBundle:Layout:home.html.twig" %}
 {% block javascripts_more %}
-    <script type="text/javascript" src="{{ asset('bundles/joboffers/javascripts/submitAjax.js') }}"></script>
+    {% javascripts
+        '@JobOffersBundle/Resources/public/javascripts/submitAjax.js'
+        filter='yui_js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 {% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
 {% set place = eznova_relation_field_to_content( ez_field_value(content,'place') )  %}
@@ -19,7 +24,7 @@
             <div class="wrapper">
                 <section class="colMedium">
                     {% include "CGFrontBundle:Common:tooltip.html.twig" %}
-                    <!-- Modal Send Article -->
+                    {#<!-- Modal Send Article -->#}
                     <div class="modal fade modalSendForm" id="JobFormModal" tabindex="-1" role="dialog" aria-labelledby="sendFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modalContent">
@@ -36,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /Modal Send Article -->
+                    {#<!-- /Modal Send Article -->#}
                     <a href="{{ path( 'ez_urlalias', {'locationId': location.parentLocationId } ) }}" class="btn goBack">Liste des offres</a>
                     <article class="content">
                         <header>
@@ -69,14 +74,14 @@
                     </article>
 
                 </section>
-                <!-- /colMedium -->
+                {#<!-- /colMedium -->#}
 
-                <!-- aside -->
+                {#<!-- aside -->#}
                 <aside>
                     {{ render( controller( "ez_content:viewLocation", {"locationId": contact.contentInfo.mainLocationId, "viewType": "line"}  ) ) }}
                     {{ ez_render_field( content, 'right_column',{'LocationId':location.id} ) }}
                 </aside>
-                <!-- /aside -->
+                {#<!-- /aside -->#}
 
             </div>
         </section>
