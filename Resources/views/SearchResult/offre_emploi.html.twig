@@ -1,8 +1,6 @@
 {% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
 {% set place = eznova_relation_field_to_content( ez_field_value(content,'place') )  %}
-
-{% set parent = eznova_parentcontent_by_contentinfo( content.contentInfo ) %}
-{% set first_parent = eznova_parentcontent_by_contentinfo( parent.contentInfo ) %}
+{% set first_parent = get_parent_n_1( location.id ) %}
 
 {% set li_class = "item" %}
 {% if not ez_is_field_empty( first_parent, "tag" ) %}

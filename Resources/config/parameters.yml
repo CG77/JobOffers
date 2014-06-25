@@ -1,0 +1,3 @@
+parameters:
+    ezsettings.job.field_templates:
+        - { template: CGFrontBundle::content_fields.html.twig, priority: 0 }

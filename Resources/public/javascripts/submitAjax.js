@@ -28,7 +28,6 @@ var manage_form_post = function(){
                 success : function(data) {
 
                     $.each(data.successInputs,function(index,value){
-                        console.log(value.elementId);
                         $('#'+value.elementId).html('');
                     })
                     if(!data.success){
