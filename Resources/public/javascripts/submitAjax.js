@@ -6,13 +6,13 @@ var manage_form_post = function(){
     function _init(){
         //Open popin job post
         $( "#jobSend" ).on( "click", function() {
-            $( "#JobFormModal").modal("show")
             $('#sendFormJob')[0].reset();
             $("input:file").uniform();
+            $( "#JobFormModal").modal("show")
             $('.error').html('');
         } );
         //Ajax request for submitting form
-        $('#sendFormJob').on('submit',function(){
+        $(document).on('submit','#sendFormJob',function(){
             var form = $(this)
             var values = new FormData(form[0]);
             //Envoi de contentId de contact dans la requête ajax
@@ -37,12 +37,15 @@ var manage_form_post = function(){
                         Recaptcha.reload();
                     }
                     else{
-                        $('.success').html(data.message);
+                        $( "#JobFormModal" ).modal( "hide" );
+                        Recaptcha.reload();
+                        $( "#Confirmation" ).find( ".modalBody" ).html( "" );
+                        $( "#Confirmation" ).find( ".modalBody" ).append('<div class="confirmation">'+data.message+'</div>');
+                        $( "#Confirmation" ).modal( "show" );
                         setTimeout(function(){
-                            $( "#JobFormModal" ).modal( "hide" );
-                        },2000);
+                            $( "#Confirmation" ).modal( "hide" );
+                        },3000);
                         form[0].reset();
-                        $('.success').html('');
                     }
                     $("input[type=submit]").removeAttr('disabled');
                 }

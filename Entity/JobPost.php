@@ -9,6 +9,7 @@
 namespace Job\OffersBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Job\OffersBundle\Validator\Constraints as JobAssert;
 
 class JobPost {
     /**
@@ -30,6 +31,7 @@ class JobPost {
     private $email;
     /**
      * @Assert\NotBlank(message="Veuillez renseigner ce champ")
+     * @JobAssert\FileExtension
      * @Assert\File(
      *     maxSize = "10000000",
      *     mimeTypes = {"application/pdf","application/x-pdf"},
@@ -38,6 +40,7 @@ class JobPost {
      */
     private $cv;
     /**
+     * @JobAssert\FileExtension
      * @Assert\File(
      *     maxSize = "10000000",
      *     mimeTypes = {"application/pdf","application/x-pdf"},

@@ -49,7 +49,7 @@ class JobController extends BaseController {
         $jobPost = new JobPost();
         $form = $this->createForm(new JobPostType, $jobPost);
         $successArray = array();
-        if($this->getRequest()->isMethod('POST')){
+        if($this->getRequest()->isMethod('POST') && $this->getRequest()){
             $form->submit($this->getRequest());
             $response = array();
             $errorsArray = array();
@@ -62,61 +62,38 @@ class JobController extends BaseController {
             if($form->isValid()){
                 $sendService = $this->get('job.sendservice');
                 $uploadDir = 'uploads';
+                $contactId = $this->get('request')->request->get('contactID');
+                $contact = $this->getRepository()->getContentService()->loadContent($contactId);
+                $title = $this->get('request')->request->get('title');
+                $message = \Swift_Message::newInstance()
+                    ->setSubject("Candidature à l'offre [".$title."] ".$jobPost->getFirstName().' '.$jobPost->getLastName())
+                    ->setFrom($jobPost->getEmail())
+                    ->setTo($contact->getFieldValue('email')->text)
+                    ->setContentType('text/html')
+                    ->setBody($this->renderView('JobOffersBundle:Job:mail.html.twig',
+                        array(
+                            'gender'=>$jobPost->getGender(),
+                            'firstName'=>$jobPost->getFirstName(),
+                            'lastName'=>$jobPost->getLastName(),
+                            'email'=>$jobPost->getEmail()
+                        )
+                    ));
                 $cvName = $sendService->upload($jobPost->getCv(),$uploadDir,'CV-'.$jobPost->getFirstName(),$jobPost->getCv()->getClientOriginalExtension());
-                $lmName = false;
+                $message->attach(\Swift_Attachment::fromPath($uploadDir.'/'.$cvName)
+                    ->setFilename('CV-'.$jobPost->getFirstName().'.'.$jobPost->getCv()->getClientOriginalExtension())
+                );
                 if($jobPost->getMotivation() != null){
                     $lmName = $sendService->upload($jobPost->getMotivation(),$uploadDir,'LM-'.$jobPost->getFirstName(),$jobPost->getCv()->getClientOriginalExtension());
+                    $message->attach(\Swift_Attachment::fromPath($uploadDir.'/'.$lmName)
+                        ->setFilename('LM-'.$jobPost->getFirstName().'.'.$jobPost->getCv()->getClientOriginalExtension())
+                    );
                 }
-                if($cvName != false && $lmName != false){
-                    $contactId = $this->get('request')->request->get('contactID');
-                    $contact = $this->getRepository()->getContentService()->loadContent($contactId);
-                    $title = $this->get('request')->request->get('title');
-                    $message = \Swift_Message::newInstance()
-                        ->setSubject("Candidature à l'offre [".$title."] ".$jobPost->getFirstName().' '.$jobPost->getLastName())
-                        ->setFrom($jobPost->getEmail())
-                        ->setTo($contact->getFieldValue('email')->text)
-                        ->setContentType('text/html')
-                        ->setBody($this->renderView('JobOffersBundle:Job:mail.html.twig',
-                            array(
-                                'gender'=>$jobPost->getGender(),
-                                'firstName'=>$jobPost->getFirstName(),
-                                'lastName'=>$jobPost->getLastName(),
-                                'email'=>$jobPost->getEmail()
-                            )
-                        ));
-                    if($cvName != false ){
-                        $message->attach(\Swift_Attachment::fromPath($uploadDir.'/'.$cvName)
-                                ->setFilename('CV-'.$jobPost->getFirstName().'.'.$jobPost->getCv()->getClientOriginalExtension())
-                        );
-                    }
-                    if($lmName !=false ){
-                        $message->attach(\Swift_Attachment::fromPath($uploadDir.'/'.$lmName)
-                                ->setFilename('LM-'.$jobPost->getFirstName().'.'.$jobPost->getCv()->getClientOriginalExtension())
-                        );
-                    }
-                    $this->get('mailer')->send($message);
-                    $this->get('session')->getFlashBag()->add('notice','success');
-                    $response['success'] = true;
-                    $response['message'] = 'Votre demande est envoyée';
-                    $response['successInputs'] = $successArray;
-                }else{
-                    $response['success'] = false;
-                    if($cvName == false){
-                        $errorsArray[] = array(
-                            'elementId' => 'cv',
-                            'errorMessage' => 'Le fichier doit être un PDF'
-                        );
-                    }
-                    if($jobPost->getMotivation() != null && $lmName == false){
-                        $errorsArray[] = array(
-                            'elementId' => 'motivation',
-                            'errorMessage' => 'Le fichier doit être un PDF'
-                        );
-                    }
-                    $response['errors'] = $errorsArray;
-                    $response['successInputs'] = $successArray;
-                }
-               }else{
+                $this->get('mailer')->send($message);
+                $this->get('session')->getFlashBag()->add('notice','success');
+                $response['success'] = true;
+                $response['message'] = 'Votre demande est envoyée';
+                $response['successInputs'] = $successArray;
+            }else{
                 $errors = $this->get('validator')->validate($form);
                 foreach ($errors as $error){
                     $errorsArray[] = array(

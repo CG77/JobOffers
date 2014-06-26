@@ -41,6 +41,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade modalSendForm" id="Confirmation" tabindex="-1" role="dialog" aria-labelledby="sendFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modalContent">
+                                <div class="modalHeader">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modalBody">
+                                    <div class="modalWrapper"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {#<!-- /Modal Send Article -->#}
                     <a href="{{ path( 'ez_urlalias', {'locationId': location.parentLocationId } ) }}" class="btn goBack">Liste des offres</a>
                     <article class="content">
