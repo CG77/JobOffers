@@ -19,6 +19,7 @@ var manage_form_post = function(){
             values.append('contactID',$('#contact_id').val())
 			values.append('title',$('#title').val())
             $("input[type=submit]").attr("disabled", "disabled");
+            $('.ajax-loader').show();
             $.ajax({
                 type : form.attr( 'method' ),
                 url : form.attr( 'action' ),
@@ -26,7 +27,7 @@ var manage_form_post = function(){
                 processData : false,
                 contentType : false,
                 success : function(data) {
-
+                    $('.ajax-loader').hide();
                     $.each(data.successInputs,function(index,value){
                         $('#'+value.elementId).html('');
                     })
