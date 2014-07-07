@@ -33,9 +33,7 @@
                                 </div>
                                 <div class="modalBody">
                                     <div class="modalWrapper">
-                                        <input id="contact_id" type="hidden" value="{{ contact.contentInfo.id }}"/>
-                                        <input id="title" type="hidden" value="{{ ez_content_name(content,'title') }}"/>
-										{{ render(controller('JobOffersBundle:Job:send' )) }}
+										{{ render(controller('JobOffersBundle:Job:send',{ "contactId":contact.contentInfo.id, "contentId": content.contentInfo.id } )) }}
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
     {{ form_javascript(form) }}
 {% endblock %}
 <div class="box formUnit paneFormUnit">
-    <form class="uForm" id="sendFormJob" action="{{ path('job_post') }}"  method="post" {{ form_enctype(form) }}>
+    <form class="uForm" id="sendFormJob" action="{{ path('job_post') }}/{{ contactId }}/{{ contentId }}"  method="post" {{ form_enctype(form) }}>
         <fieldset class="fieldsetWidth">
             <legend class="setTitle">Postuler à une offre d'emploi</legend>
             <p>Formulaire d'envoi de mail.</p>
@@ -80,5 +80,6 @@
 
             <p class="footNote">Mentions légales du formulaire... </p>
         </div>
+		<iframe id="upload_frame" name="upload_frame" height="0" width="0" frameborder="0" scrolling="yes"></iframe>
     </form>
 </div>

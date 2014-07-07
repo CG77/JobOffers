@@ -43,9 +43,9 @@ class JobController extends BaseController {
     }
 
     /**
-     * @Route("/job/post", name="job_post")
+     * @Route("/job/post/{contactId}/{contentId}", name="job_post")
      */
-    public function sendAction() {
+    public function sendAction( $contactId = 0, $contentId = 0 ) {
         $jobPost = new JobPost();
         $form = $this->createForm(new JobPostType, $jobPost);
         $successArray = array();
@@ -64,9 +64,9 @@ class JobController extends BaseController {
                 $uploadDir = 'uploads';
                 $contactId = $this->get('request')->request->get('contactID');
                 $contact = $this->getRepository()->getContentService()->loadContent($contactId);
-                $title = $this->get('request')->request->get('title');
+				$offer = $this->getRepository()->getContentService()->loadContent($contentId);
                 $message = \Swift_Message::newInstance()
-                    ->setSubject("Candidature à l'offre [".$title."] ".$jobPost->getFirstName().' '.$jobPost->getLastName())
+                    ->setSubject("Candidature à l'offre [".$offer->getFieldValue('title')->text."] ".$jobPost->getFirstName().' '.$jobPost->getLastName())
                     ->setFrom($jobPost->getEmail())
                     ->setTo($contact->getFieldValue('email')->text)
                     ->setContentType('text/html')
@@ -111,7 +111,11 @@ class JobController extends BaseController {
             }
             return new JsonResponse($response);
         }
-        return $this->render('JobOffersBundle:Job:send.html.twig',array('form'=>$form->createView()));
+        return $this->render('JobOffersBundle:Job:send.html.twig',array(
+			'contactId' => $contactId,
+            'contentId' => $contentId,
+			'form'=>$form->createView()
+		));
     }
 
     public function getParentTag($parentTagId,$tag){
