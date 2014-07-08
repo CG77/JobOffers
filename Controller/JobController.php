@@ -109,7 +109,9 @@ class JobController extends BaseController {
                 $response['errors'] = $errorsArray;
                 $response['successInputs'] = $successArray;
             }
-            return new JsonResponse($response);
+            $response = new Response(json_encode($response));
+            $response->headers->set('Content-Type', 'text/html');
+            return $response;
         }
         return $this->render('JobOffersBundle:Job:send.html.twig',array(
 			'contactId' => $contactId,
