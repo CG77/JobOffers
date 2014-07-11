@@ -73,7 +73,7 @@
                                 {% for page in 1..nbPage %}
                                     {% if page != currentPage %}
                                         <li class={{  page < currentPage ? "prev-posts"  : "next-items"  }}>
-                                            <a href="?{{ params }}&page={{ page }}" title="page{{ page }}">{{ page }}</a>
+                                            <a href="?{{ params }}&amp;page={{ page }}" title="page{{ page }}">{{ page }}</a>
                                         </li>
                                     {% else %}
                                         <li>{{ page }}</li>
