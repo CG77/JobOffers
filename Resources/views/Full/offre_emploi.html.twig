@@ -9,7 +9,7 @@
 {% endblock %}
 {% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
 {% set place = eznova_relation_field_to_content( ez_field_value(content,'place') )  %}
-{% set contact = eznova_relation_field_to_content( ez_field_value(content,'contact') )  %}
+{% set contacts = eznova_relationlist_field_to_content_list( ez_field_value(content,'contact') )  %}
 {% set body_class = "bodyPage" %}
 {% set body_id = "contenu01" %}
 {% block content %}
@@ -33,7 +33,9 @@
                                 </div>
                                 <div class="modalBody">
                                     <div class="modalWrapper">
-										{{ render(controller('JobOffersBundle:Job:send',{ "contactId":contact.contentInfo.id, "contentId": content.contentInfo.id } )) }}
+                                        {% for contact in contacts %}
+										    {{ render(controller('JobOffersBundle:Job:send',{ "contactId":contact.contentInfo.id, "contentId": content.contentInfo.id } )) }}
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -75,10 +77,12 @@
                         </ul>
                         {{ ez_render_field(content,'description') }}
                         <h2>Poste à pourvoir rapidement</h2>
-                        <p>
-                            Renseignements auprès de {{ ez_content_name(contact,'name') }}, chargée de recrutement, au {{ ez_field_value(contact,'phone') }}<br/>
-                            Adressez votre candidature (lettre de motivation + CV) à <a href="mailto:{{ ez_field_value(contact,'email') }}">{{ ez_field_value(contact,'email') }}</a>
-                        </p>
+                        {% for contact in contacts %}
+                            <p>
+                                Renseignements auprès de {{ ez_content_name(contact,'name') }}, chargée de recrutement, au {{ ez_field_value(contact,'phone') }}<br/>
+                                Adressez votre candidature (lettre de motivation + CV) à <a href="mailto:{{ ez_field_value(contact,'email') }}">{{ ez_field_value(contact,'email') }}</a>
+                            </p>
+                        {% endfor %}
                         <h3>Date limite de candidature</h3>
                         <p>Postulez avant le {{ ez_render_field(content,'application_deadline',{'container':true}) }}.</p>
                         <a data-toggle="modal" data-target="#JobFormModal" id="jobSend" href="javascript:void(0)">Postuler</a>
@@ -89,7 +93,9 @@
 
                 {#<!-- aside -->#}
                 <aside>
+                    {% for contact in contacts %}
                     {{ render( controller( "ez_content:viewLocation", {"locationId": contact.contentInfo.mainLocationId, "viewType": "line"}  ) ) }}
+                    {% endfor %}
                     {{ ez_render_field( content, 'right_column',{'LocationId':location.id} ) }}
                 </aside>
                 {#<!-- /aside -->#}
