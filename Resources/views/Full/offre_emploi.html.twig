@@ -64,7 +64,22 @@
                             <li><strong>Structure&nbsp;<span>:</span></strong> {{ ez_content_name(structure,'name') }}</li>
                             <li><strong>Domaine d'activité&nbsp;<span>:</span></strong>{{ ez_render_field(content,'activity_field',{'container':true}) }}</li>
                             <li><strong>Lieu&nbsp;<span>:</span></strong>{{ ez_content_name(place,'city') }}</li>
-                            <li><strong>Type d'emploi&nbsp;<span>:</span></strong>{{ ez_render_field(content,'job_type',{'container':true}) }}</li>
+                            <li>
+                                <strong>Type d'emploi&nbsp;<span>:</span></strong>
+                                {{ ez_render_field(content,'job_type',{'container':true}) }}
+                                {% if ez_field_value( content, 'job_type' ) == '4' %}
+                                    {% if ez_field_value( content, 'type_besoin' ) != '0' %}
+                                        &nbsp;({{ ez_render_field(content,'type_besoin',{'container':true}) }}{% if ez_field_value( content, 'time_job' ) == "" %}){% else %}, {% endif %}
+                                    {% endif %}
+                                    {% if ez_field_value( content, 'time_job' ) != "" %}
+                                        {% if ez_field_value( content, 'type_besoin' ) == '0' %}&nbsp;({% endif %}durée de {{ ez_render_field(content,'time_job',{'container':true}) }})
+                                    {% endif %}
+                                {% elseif ez_field_value( content, 'job_type' ) == '2' %}
+                                    {% if ez_field_value( content, 'time_job' ) != "" %}
+                                        &nbsp;(durée de {{ ez_render_field(content,'time_job',{'container':true}) }})
+                                    {% endif %}
+                                {% endif %}
+                            </li>
                             <li>
                                 <strong>Filière - Cadre d'emploi&nbsp;<span>:</span></strong>
                                 <ul class="resetList">
