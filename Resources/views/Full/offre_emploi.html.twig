@@ -1,10 +1,10 @@
 {% extends "CGFrontBundle:Layout:home.html.twig" %}
 {% block javascripts_more %}
     {% javascripts
-        '@JobOffersBundle/Resources/public/javascripts/submitAjax.js'
-        filter='yui_js'
+    '@JobOffersBundle/Resources/public/javascripts/submitAjax.js'
+    filter='yui_js'
     %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
 {% set structure = eznova_relation_field_to_content( ez_field_value(content,'structure') )  %}
@@ -34,7 +34,7 @@
                                 <div class="modalBody">
                                     <div class="modalWrapper">
                                         {% for contact in contacts %}
-										    {{ render(controller('JobOffersBundle:Job:send',{ "contactId":contact.contentInfo.id, "contentId": content.contentInfo.id } )) }}
+                                            {{ render(controller('JobOffersBundle:Job:send',{ "contactId":contact.contentInfo.id, "contentId": content.contentInfo.id } )) }}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -62,17 +62,17 @@
                         </header>
                         <ul class="criteriaList">
                             <li><strong>Structure&nbsp;<span>:</span></strong> {{ ez_content_name(structure,'name') }}</li>
-                            <li><strong>Domaine d'activité&nbsp;<span>:</span></strong>{{ ez_render_field(content,'activity_field',{'container':true}) }}</li>
-                            <li><strong>Lieu&nbsp;<span>:</span></strong>{{ ez_content_name(place,'city') }}</li>
+                            <li><strong>Domaine d'activité&nbsp;<span>:</span></strong> {{ ez_render_field(content,'activity_field',{'container':true}) }}</li>
+                            <li><strong>Lieu&nbsp;<span>:</span></strong> {{ ez_content_name(place,'city') }}</li>
                             <li>
                                 <strong>Type d'emploi&nbsp;<span>:</span></strong>
                                 {{ ez_render_field(content,'job_type',{'container':true}) }}
                                 {% if ez_field_value( content, 'job_type' ) == '4' %}
                                     {% if ez_field_value( content, 'type_besoin' ) != '0' %}
-                                        &nbsp;({{ ez_render_field(content,'type_besoin',{'container':true}) }}{% if ez_field_value( content, 'time_job' ) == "" %}){% else %}, {% endif %}
+                                        &nbsp;{{ '('~ez_render_field(content,'type_besoin',{'container':true})|trim  }}{% if ez_field_value( content, 'time_job' ) == "" %}){% else %}, {% endif %}
                                     {% endif %}
                                     {% if ez_field_value( content, 'time_job' ) != "" %}
-                                        {% if ez_field_value( content, 'type_besoin' ) == '0' %}&nbsp;({% endif %}durée de {{ ez_render_field(content,'time_job',{'container':true}) }})
+                                        {% if ez_field_value( content, 'type_besoin' ) == '0' %}&nbsp;({% endif %}durée de {{ ez_render_field(content,'time_job',{'container':true})|trim ~')' }}
                                     {% endif %}
                                 {% elseif ez_field_value( content, 'job_type' ) == '2' %}
                                     {% if ez_field_value( content, 'time_job' ) != "" %}
@@ -109,7 +109,7 @@
                 {#<!-- aside -->#}
                 <aside>
                     {% for contact in contacts %}
-                    {{ render( controller( "ez_content:viewLocation", {"locationId": contact.contentInfo.mainLocationId, "viewType": "line"}  ) ) }}
+                        {{ render( controller( "ez_content:viewLocation", {"locationId": contact.contentInfo.mainLocationId, "viewType": "line"}  ) ) }}
                     {% endfor %}
                     {{ ez_render_field( content, 'right_column',{'LocationId':location.id} ) }}
                 </aside>
