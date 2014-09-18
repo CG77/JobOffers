@@ -94,7 +94,7 @@
                         <h2>Poste à pourvoir rapidement</h2>
                         {% for contact in contacts %}
                             <p>
-                                Renseignements auprès de {{ ez_content_name(contact,'name') }}, chargée de recrutement, au {{ ez_field_value(contact,'phone') }}<br/>
+                                Renseignements auprès de {{ ez_content_name(contact,'name') }}, chargé(e) de recrutement, au {{ ez_field_value(contact,'phone') }}<br/>
                                 Adressez votre candidature (lettre de motivation + CV) à <a href="mailto:{{ ez_field_value(contact,'email') }}">{{ ez_field_value(contact,'email') }}</a>
                             </p>
                         {% endfor %}
