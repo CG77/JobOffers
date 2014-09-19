@@ -34,7 +34,9 @@ class JobController extends BaseController {
         foreach($content->getFieldValue('branch')->tags as $index => $tag){
             $branchs[$index] = $this->getParentTag($tag->parentTagId,$tag);
         }
-        return $this->render( 'JobOffersBundle:Full:offre_emploi.html.twig', array(
+        $hash_bundle_name = $this->container->getParameter('hash_bundle_name');
+        return $this->render(
+            $hash_bundle_name[$this->getRequest()->attributes->get('siteaccess')->name].'Full:offre_emploi.html.twig', array(
                 'location' => $location,
                 'content' =>$content,
                 'branchs' =>$branchs
@@ -113,7 +115,9 @@ class JobController extends BaseController {
             $response->headers->set('Content-Type', 'text/html');
             return $response;
         }
-        return $this->render('JobOffersBundle:Job:send.html.twig',array(
+        $hash_bundle_name = $this->container->getParameter('hash_bundle_name');
+        return $this->render(
+            $hash_bundle_name[$this->getRequest()->attributes->get('siteaccess')->name].':Job:send.html.twig',array(
 			'contactId' => $contactId,
             'contentId' => $contentId,
 			'form'=>$form->createView()
