@@ -120,7 +120,9 @@ class JobSearchController extends BaseController {
         if($aGetParams['page']){
             unset($aGetParams['page']);
         }
-        return $this->render( 'JobOffersBundle:Full:job_search.html.twig', array(
+        $hash_bundle_name = $this->container->getParameter('hash_bundle_name');
+        return $this->render(
+            $hash_bundle_name[$this->getRequest()->attributes->get('siteaccess')->name].':Full:job_search.html.twig', array(
                 'search' => $this->getResultSearch($params,$locationId),
                 'form' => $form->createView(),
                 'location' => $location,
