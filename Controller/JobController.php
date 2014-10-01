@@ -36,7 +36,7 @@ class JobController extends BaseController {
         }
         $hash_bundle_name = $this->container->getParameter('hash_bundle_name');
         return $this->render(
-            $hash_bundle_name[$this->getRequest()->attributes->get('siteaccess')->name].'Full:offre_emploi.html.twig', array(
+            $hash_bundle_name[$this->getRequest()->attributes->get('siteaccess')->name].':Full:offre_emploi.html.twig', array(
                 'location' => $location,
                 'content' =>$content,
                 'branchs' =>$branchs
